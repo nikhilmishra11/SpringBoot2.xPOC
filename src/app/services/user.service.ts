@@ -1,11 +1,16 @@
 import { User } from '../models/user';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Configuration } from '../constants/app.configuration';
 
 @Injectable()
 export class UserService {
 
-  constructor(private http: HttpClient) { }
+    private actionUrl:string;
+
+  constructor(private http: HttpClient, private _configuration: Configuration) {
+    this.actionUrl = _configuration.Server + 'user';
+ }
   
   getAll() {
     return this.http.get<User[]>('/api/users');
@@ -16,11 +21,11 @@ export class UserService {
     }
  
     create(user: User) {
-        return this.http.post('/api/users', user);
+        return this.http.post(this.actionUrl, user);
     }
  
     update(user: User) {
-        return this.http.put('/api/users/' + user.id, user);
+        return this.http.put('/api/users/' + user.userId, user);
     }
  
     delete(id: number) {
