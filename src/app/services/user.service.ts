@@ -9,11 +9,11 @@ export class UserService {
     private actionUrl:string;
 
   constructor(private http: HttpClient, private _configuration: Configuration) {
-    this.actionUrl = _configuration.Server + 'user';
+    this.actionUrl = _configuration.ServerWithApiUrl ;
  }
   
   getAll() {
-    return this.http.get<User[]>('/api/users');
+    return this.http.get<User[]>(this.actionUrl+'users');
   }
   
   getById(id: number) {
@@ -21,7 +21,7 @@ export class UserService {
     }
  
     create(user: User) {
-        return this.http.post(this.actionUrl, user);
+        return this.http.post(this.actionUrl+'user', user);
     }
  
     update(user: User) {

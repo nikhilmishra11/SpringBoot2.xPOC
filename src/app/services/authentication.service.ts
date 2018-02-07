@@ -14,7 +14,7 @@ export class AuthenticationService {
     private actionUrl: string;
     
     constructor(private http: HttpClient, private _configuration: Configuration) {
-        this.actionUrl = _configuration.Server + 'login';
+        this.actionUrl = _configuration.ServerWithApiUrl + 'login';
      }
  
 

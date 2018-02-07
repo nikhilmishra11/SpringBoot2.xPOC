@@ -11,26 +11,33 @@ import { SharedService } from '../services/user.shared.service';
 export class HomeComponent implements OnInit {
 
     currentUser: User;
+    loading = false;
     users: User[] = [];
  
     
-    constructor(private service:SharedService, private router:Router){
-       this.service = service;
+    constructor(
+        private service:SharedService, 
+        private userService: UserService,
+        private router:Router){
+        this.service = service;
+       
       }
     
     ngOnInit() {
         this.users = new Array<User>();
         //console.log(this.service.getData());
-        this.currentUser = this.service.getData();
-        this.users.push(this.service.getData());
+        this.currentUser = JSON.parse(sessionStorage.getItem("currentUser"));
+        //this.users.push(this.service.getData());
+        this.userService.getAll().subscribe(
+            data => {
+                this.users = data;
+                //this.service.saveData(data);
+                //this.router.navigate(['home']);
+            },
+            error => {
+                //this.alertService.error(error);
+                this.loading = false;
+            }
+        );
     }
- 
-    /*deleteUser(id: number) {
-        this.userService.delete(id).subscribe(() => { this.loadAllUsers(); });
-    }
- 
-    private loadAllUsers() {
-        this.userService.getAll().subscribe(users => { this.users = users; });
-    }
-    */
 }

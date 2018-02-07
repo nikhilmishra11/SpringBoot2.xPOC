@@ -38,6 +38,7 @@ export class LoginComponent implements OnInit {
                 data => {
                     console.log(data);
                     this.service.saveData(data);
+                    sessionStorage.setItem("currentUser", JSON.stringify(data));
                     this.router.navigate(['home']);
                 },
                 error => {
